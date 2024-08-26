@@ -1,0 +1,78 @@
+{
+  "definitions": {},
+  "info": {
+    "title": "applyMe-backend",
+    "version": "1.0.0",
+    "license": {
+      "name": "ISC"
+    },
+    "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3)."
+  },
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "/api/auth/register",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/auth/login": {
+      "patch": {
+        "summary": "/api/auth/login",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/auth/check-user-permissions": {
+      "post": {
+        "summary": "/api/auth/check-user-permissions",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "string",
+                  "example": "{\"userId\":\"dbe192df-34fe-4466-a2d9-99f6f312094f\",\"name\":\"Federico\",\"surname\":\"Zappa\",\"email\":\"fredez1991@gmail.com\",\"role\":\"user\",\"phone\":\"2996733585\",\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZyZWRlejE5OTFAZ21haWwuY29tIiwidXNlcklkIjoiZGJlMTkyZGYtMzRmZS00NDY2LWEyZDktOTlmNmYzMTIwOTRmIiwiaWF0IjoxNzI0NjczMTk1LCJleHAiOjE3MjQ2NzMxOTV9.7K7JjmDNkdxM55cYt_8fSKOI3eNPW_dI4MmLrwhhjb8\"}"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/auth/check-user-permissions</pre>\n</body>\n</html>\n"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "text/html"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:3001"
+}

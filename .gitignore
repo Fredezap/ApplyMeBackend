@@ -1,0 +1,16 @@
+# Dependency directories
+node_modules/
+package-lock.json
+dist/
+uploads/
+
+# dotenv environment variables file
+.env
+.env.prod
+.env.test
+
+# File .log
+*.log
+
+# Files
+src/emailConfig/token.json
