@@ -1,14 +1,17 @@
 import { StatusCodes } from 'http-status-codes'
 import errorCodes from '../../constants/errors/errorCodes.js'
+import userService from './common/userService.js'
 
 const { INVALID_CREDENTIALS } = errorCodes.authUserErrors
 
 export const userCheckIsCredentials = async(req, res) => {
-    const { email: emailDb, token: tokenDb, role: roleDb } = req.body.user
+    const { user } = req.body
+    const { email: emailDb, token: tokenDb, role: roleDb } = user
     const { email, token, role } = req.body
 
     if (emailDb === email && tokenDb === token && roleDb === role) {
-        return res.status(StatusCodes.OK).send()
+        const filteredUser = userService.filterUserData(user)
+        return res.status(StatusCodes.OK).json({ user: filteredUser })
     }
 
     const errors = [{ msg: INVALID_CREDENTIALS }]
