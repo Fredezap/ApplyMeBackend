@@ -1,18 +1,6 @@
-import logger from '../../../utils/logger.js'
+import { commonConstants } from '../../../constants/common/commonConstants.js'
+const { IMAGE_ALLOWED_MIME_TIPES } = commonConstants
 
 export const isImage = (value) => {
-    const imageMimeTypes = [
-        'image/jpeg',
-        'image/png',
-        'image/gif',
-        'image/bmp',
-        'image/tiff',
-        'image/webp',
-        'image/svg+xml',
-        'image/x-icon',
-        'image/heic',
-        'image/avif'
-    ]
-
-    return imageMimeTypes.includes(value.mimetype)
+    return IMAGE_ALLOWED_MIME_TIPES.includes(value.mimetype)
 }
