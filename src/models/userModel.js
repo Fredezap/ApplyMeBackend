@@ -61,7 +61,7 @@ export const User = sequelize.define('User', {
     }
 })
 
-sequelize.sync({ alter: true })
+await sequelize.sync({ alter: true })
     .then(() => {
         logger.info('User synchronized')
     })

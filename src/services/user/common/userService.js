@@ -1,3 +1,5 @@
+import { Image } from '../../../models/imageModel.js'
+import { Task } from '../../../models/taskModel.js'
 import { User } from '../../../models/userModel.js'
 
 const registerUser = async(user) => {
@@ -7,21 +9,60 @@ const registerUser = async(user) => {
 
 const filterUserData = (user) => {
     const userCopy = { ...user.dataValues }
-    const filteredUser = {
-        userId: userCopy.userId,
-        name: userCopy.name,
-        surname: userCopy.surname,
-        email: userCopy.email,
-        role: userCopy.role,
-        phone: userCopy.phone,
-        token: userCopy.token
-    }
-    return filteredUser
+    delete userCopy.password
+    delete userCopy.createdAt
+    delete userCopy.updatedAt
+    delete userCopy.verificationToken
+    return userCopy
 }
 
-const findByEmail = async(email) => await User.findOne({ where: { email } })
+const findByEmail = async(email) => {
+    try {
+        const user = await User.findOne({
+            where: { email },
+            include: [
+                {
+                    model: Task,
+                    include: [
+                        {
+                            model: Image
+                        }
+                    ],
+                    order: [['createdAt', 'DESC']]
+                }
+            ]
+        })
+        console.log('USER', user)
+        return user
+    } catch (error) {
+        console.error('Error fetching user by email:', error)
+        throw new Error()
+    }
+}
 
-const findByUserId = async(userId) => await User.findOne({ where: { userId } })
+const findByUserId = async(userId) => {
+    try {
+        const user = await User.findOne({
+            where: { userId },
+            include: [
+                {
+                    model: Task,
+                    include: [
+                        {
+                            model: Image
+                        }
+                    ],
+                    order: [['createdAt', 'DESC']]
+                }
+            ]
+        })
+        console.log('USER', user)
+        return user
+    } catch (error) {
+        console.error('Error fetching user by id:', error)
+        throw new Error()
+    }
+}
 
 const updateUser = async(values, userId) => {
     try {

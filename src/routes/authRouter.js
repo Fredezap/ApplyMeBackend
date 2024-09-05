@@ -1,6 +1,5 @@
 import express from 'express'
 import runValidations from '../middlewares/common/validations/runValidations.js'
-import validateEmailFormat from '../middlewares/auth/validations/validateEmailFormat.js'
 import validatePassword from '../middlewares/auth/validations/validatePassword.js'
 import validateUniqueEmail from '../middlewares/auth/validations/validateUniqueEmail.js'
 import validateName from '../middlewares/auth/validations/validateName.js'
@@ -15,18 +14,20 @@ import validatePhoneNumber from '../middlewares/auth/validations/validatePhoneNu
 import capitalizeFullname from '../middlewares/common/validations/capitalizeFullname.js'
 import normalizeEmail from '../middlewares/common/validations/normalizeEmail.js'
 import { userUpdateToken } from '../services/user/userUpdateToken.js'
-import validateIdFormat from '../middlewares/auth/validations/validateIdFormat.js'
 import validateRole from '../middlewares/auth/validations/validateRole.js'
 import validateToken from '../middlewares/auth/validations/validateToken.js'
 import validateUserExistById from '../middlewares/auth/validations/validateUserExistById.js'
 import { userCheckIsCredentials } from '../services/user/userCheckIsCredentials.js'
+import { cleanUserData } from '../middlewares/auth/validations/cleanUserData.js'
+import validateUserId from '../middlewares/auth/validations/validateUserId.js'
+import validateEmail from '../middlewares/auth/validations/validateEmail.js'
 
 const authRouter = express.Router()
 
 const registerValidations = runValidations([
     validateName,
     validateSurname,
-    validateEmailFormat,
+    validateEmail,
     validatePassword,
     validateConfirmPassword,
     validatePhoneNumber,
@@ -35,24 +36,24 @@ const registerValidations = runValidations([
 ])
 
 const loginValitaions = runValidations([
-    validateEmailFormat,
+    validateEmail,
     validatePassword,
     validateEmailUserExist
 ])
 
 const userPermitionsValidations = runValidations([
-    validateIdFormat,
-    validateEmailFormat,
+    validateUserId,
+    validateEmail,
     validateRole,
     validateToken,
     validateUserExistById
 ])
 
-// const print = (req, res, next) => {
-//     console.log('en print')
-//     console.log(req.body)
-//     next()
-// }
+const print = (req, res, next) => {
+    console.log('en print')
+    console.log(req.body)
+    next()
+}
 
 authRouter.post('/register', registerValidations, capitalizeFullname, normalizeEmail, hashPassword, userRegister)
 authRouter.patch('/login', loginValitaions, checkPassword, generateJWTToken('7d'), userUpdateToken)

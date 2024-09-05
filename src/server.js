@@ -4,7 +4,8 @@ import logger from 'morgan'
 import cors from 'cors'
 import { router } from './router.js'
 import { createTransporter } from './emailConfig/emailConfig.js'
-import { models } from './models/modelsExportation.js'
+import { modelsAssociations } from './models/modelsAssociations.js'
+import { modelsExportations } from './models/modelsExportations.js'
 import dotenv from 'dotenv'
 
 // TODO: add setEnvVariables
@@ -18,13 +19,14 @@ server.use(express.json())
 server.use('/api', router)
 
 // Para analizar cuerpos JSON
-server.use(express.json({ limit: '10mb' }))
+server.use(express.json({ limit: '5mb' }))
 
 // Para analizar cuerpos URL-encoded
-server.use(express.urlencoded({ limit: '10mb', extended: true }))
+server.use(express.urlencoded({ limit: '5mb', extended: true }))
 
 const PRODUCTION = 'production'
-const sequelizeModels = models
+const sequelizeModels = modelsExportations
+modelsAssociations()
 
 expressOasGenerator.handleResponses(server, {
     specOutputPath: './api_docs.json',
