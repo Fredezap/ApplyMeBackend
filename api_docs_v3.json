@@ -33,42 +33,44 @@
     "/api/task/create": {
       "post": {
         "summary": "/api/task/create",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/admin/get-users": {
+      "post": {
+        "summary": "/api/admin/get-users",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/admin/change-user-role": {
+      "patch": {
+        "summary": "/api/admin/change-user-role",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "title": {
-                    "type": "string",
-                    "example": "asd"
-                  },
-                  "description": {
-                    "type": "string",
-                    "example": "asdasd"
-                  },
-                  "image": {
-                    "type": "string",
-                    "example": ""
-                  },
-                  "user": {
+                  "userToChange": {
                     "type": "object",
                     "properties": {
                       "userId": {
                         "type": "string",
-                        "example": "dbe192df-34fe-4466-a2d9-99f6f312094f"
+                        "example": "63c8f3ef-bd6b-49d9-88a0-ff89d16e484c"
                       },
                       "name": {
                         "type": "string",
-                        "example": "Federico"
+                        "example": "Asd"
                       },
                       "surname": {
                         "type": "string",
-                        "example": "Zappa"
+                        "example": "Asd"
                       },
                       "email": {
                         "type": "string",
-                        "example": "fredez1991@gmail.com"
+                        "example": "fredez199133@gmail.com"
                       },
                       "role": {
                         "type": "string",
@@ -76,13 +78,44 @@
                       },
                       "phone": {
                         "type": "string",
-                        "example": "2996733585"
-                      },
-                      "token": {
-                        "type": "string",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZyZWRlejE5OTFAZ21haWwuY29tIiwidXNlcklkIjoiZGJlMTkyZGYtMzRmZS00NDY2LWEyZDktOTlmNmYzMTIwOTRmIiwiaWF0IjoxNzI0ODUwMTYwLCJleHAiOjE3MjU0NTQ5NjB9.hljG1pQXd45_Dn62L37-UWkeVQI9PCbeSxuypelEB2s"
+                        "example": "321"
                       }
                     }
+                  },
+                  "userId": {
+                    "type": "string",
+                    "example": "dbe192df-34fe-4466-a2d9-99f6f312094f"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Federico"
+                  },
+                  "surname": {
+                    "type": "string",
+                    "example": "Zappa"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "fredez1991@gmail.com"
+                  },
+                  "role": {
+                    "type": "string",
+                    "example": "admin"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "2996733585"
+                  },
+                  "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZyZWRlejE5OTFAZ21haWwuY29tIiwidXNlcklkIjoiZGJlMTkyZGYtMzRmZS00NDY2LWEyZDktOTlmNmYzMTIwOTRmIiwiaWF0IjoxNzI1NjI3OTA0LCJleHAiOjE3MjYyMzI3MDR9.m6j-i5U8CHzy3py7eK3H0yc47p4Huqk58rql7alLaXA"
+                  },
+                  "Tasks": {
+                    "type": "array",
+                    "items": {},
+                    "example": [
+                      null
+                    ]
                   }
                 }
               }
@@ -97,7 +130,7 @@
               "text/html": {
                 "schema": {
                   "type": "string",
-                  "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/task/create</pre>\n</body>\n</html>\n"
+                  "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot PATCH /api/admin/change-user-role</pre>\n</body>\n</html>\n"
                 }
               }
             }
