@@ -5,6 +5,7 @@ const { PLEASE_LOGIN, YOU_DO_NOT_HAVE_PERMISSIONS_TO_ACCESS_THIS_SECTION } = err
 
 export const checkUserPermissions = ({ role }) => {
     return async(req, res, next) => {
+        console.log('EN CHECK: ', req.body)
         let errors
         const url = '/auth/check-user-permissions'
 

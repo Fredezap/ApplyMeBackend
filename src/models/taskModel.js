@@ -22,7 +22,7 @@ export const Task = sequelize.define('Task', {
         }
     },
     description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
         validate: {
             len: [MIN_DESCRIPTION_LENGTH, MAX_DESCRIPTION_LENGTH]
