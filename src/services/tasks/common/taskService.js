@@ -1,5 +1,10 @@
+import { Sequelize } from 'sequelize'
 import { Image } from '../../../models/imageModel.js'
 import { Task } from '../../../models/taskModel.js'
+import { tasksAppliedConstants } from '../../../constants/tasksApplied/tasksAppliedConstants.js'
+import { TaskApplied } from '../../../models/tasksAppliedModel.js'
+import { User } from '../../../models/userModel.js'
+const { STATUS } = tasksAppliedConstants
 
 const create = async(task) => {
     const response = await Task.create(task)
@@ -42,11 +47,44 @@ const getUserTasks = async(userId) => {
     }
 }
 
+const findAllPendingTasks = async() => {
+    try {
+        const tasks = await Task.findAll({
+            include: [
+                {
+                    model: Image
+                },
+                {
+                    model: TaskApplied,
+                    required: false,
+                    where: {
+                        status: {
+                            [Sequelize.Op.notIn]: [STATUS.IN_PROGRES, STATUS.COMPLETED]
+                        }
+                    }
+                },
+                {
+                    model: User,
+                    attributes: ['userId', 'name', 'surname', 'email', 'phone']
+                }
+            ]
+        })
+
+        console.log('TASKS', tasks)
+        return tasks
+    } catch (error) {
+        console.error('Error fetching tasks:', error)
+        throw new Error('Error fetching tasks')
+    }
+}
+
 const taskService = {
     create,
     createWithTransaction,
     findById,
-    update
+    update,
+    getUserTasks,
+    findAllPendingTasks
 }
 
 export default taskService

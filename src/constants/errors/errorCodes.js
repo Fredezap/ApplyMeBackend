@@ -60,12 +60,19 @@ const imageErrors = {
     AN_ERROR_OCURRED_WHILE_CREATING_TASK: 'AN_ERROR_OCURRED_WHILE_CREATING_TASK'
 }
 
+const adminErrors = {
+    ERROR_WHILE_GETTING_USERS: 'ERROR_WHILE_GETTING_USERS',
+    INVALID_USER_ROLE_TO_CHANGE: 'INVALID_USER_ROLE_TO_CHANGE',
+    ERROR_WHILE_GETTING_PENDING_TASKS: 'ERROR_WHILE_GETTING_PENDING_TASKS'
+}
+
 const errorCodes = {
     authUserErrors,
     commonErrors,
     emailErrors,
     tasksErrors,
-    imageErrors
+    imageErrors,
+    adminErrors
 }
 
 export default errorCodes

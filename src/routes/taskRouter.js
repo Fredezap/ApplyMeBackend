@@ -5,6 +5,7 @@ import validateDescription from '../middlewares/tasks/validations/validateDescri
 import checkImage from '../services/tasks/checkImage.js'
 import { checkUserPermissions } from '../middlewares/auth/OAuth/checkUserPermissions.js'
 import { createTask } from '../services/tasks/createTask.js'
+import { getAllPendingTasks } from '../services/admin/getAllPendingTasks.js'
 
 const taskRouter = express.Router()
 
@@ -24,6 +25,12 @@ taskRouter.post('/create',
     createTaskValidations,
     checkImage,
     createTask
+)
+
+taskRouter.post('/get-pending-tasks',
+    print,
+    checkUserPermissions({ role: 'employee' }),
+    getAllPendingTasks
 )
 
 export default taskRouter
