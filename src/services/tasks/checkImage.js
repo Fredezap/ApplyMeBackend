@@ -17,13 +17,11 @@ const checkImage = (req, res, next) => {
         const file = req.file
         let checkIfExist
         let checkSize
-        console.log(!file ? 'no hay imagen' : 'hay imagen')
+
         if (!file) return next()
-        console.log('file', file)
+
         if (file.fieldname === 'image' && file.mimetype && file.size) {
             checkIfExist = isImage(file)
-            console.log('file size: ', file.size)
-            console.log('file IMAGE_MAX_SIZE: ', IMAGE_MAX_SIZE)
             checkSize = file.size < IMAGE_MAX_SIZE
         } else {
             errors = [{ msg: INVALID_IMAGE }]
@@ -47,11 +45,6 @@ const checkImage = (req, res, next) => {
         const projectRoot = path.resolve(__dirname, rootEnv)
         const filePath = file.path
         const filePathJoin = path.join(projectRoot, filePath)
-        console.log('__filename: ', __filename)
-        console.log('__dirname: ', __dirname)
-        console.log('projectRoot: ', projectRoot)
-        console.log('filePath: ', filePath)
-        console.log('filePathJoin: ', filePathJoin)
 
         if (!fs.existsSync(filePathJoin)) {
             const errors = [{ msg: ERROR_LOADING_THE_IMAGE }]
@@ -60,7 +53,6 @@ const checkImage = (req, res, next) => {
 
         req.body.imageData = { url: `http://localhost:3001/api/${filePath}`, name: file.originalname || file.fieldname }
 
-        console.log('todo ok en chek image')
         return next()
     } catch (error) {
         console.log('error en check image: ', error)
