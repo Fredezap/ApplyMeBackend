@@ -11,14 +11,11 @@ export const userUpdateToken = async(req, res) => {
         const userId = user.userId
         // todo: CHEQUEAR TODO ESTO. QUIZA LO HAGA SEPARADO, AL MENOS LO DEL ADMIN.
         // todo: quiza cambiar el nombre de esta funcion o crear una final que sea LOGIN
-        console.log('USER ANTES DEL UPDATE: ', user)
         await userService.updateUser({ token }, userId)
         user.token = token
         const filteredUser = userService.filterUserData(user)
         if (filteredUser.role === 'employee') {
-            console.log('EN EMPLOYEE')
             const unappliedTasks = await taskService.findAllPendingTasks()
-            console.log(unappliedTasks.length)
             return res.status(StatusCodes.OK).json({ user: filteredUser, unappliedTasks })
         } else {
             return res.status(StatusCodes.OK).json({ user: filteredUser })

@@ -55,22 +55,24 @@ const findAllPendingTasks = async() => {
                     model: Image
                 },
                 {
-                    model: TaskApplied,
-                    required: false,
-                    where: {
-                        status: {
-                            [Sequelize.Op.notIn]: [STATUS.IN_PROGRES, STATUS.COMPLETED]
-                        }
-                    }
-                },
-                {
                     model: User,
                     attributes: ['userId', 'name', 'surname', 'email', 'phone']
                 }
-            ]
+            ],
+            where: {
+                // Esta subconsulta asegura que no existan TaskApplied con esos estados para la tarea
+                [Sequelize.Op.and]: [
+                    Sequelize.literal(`
+                        NOT EXISTS (
+                            SELECT 1 FROM "TaskApplieds"
+                            WHERE "TaskApplieds"."taskId" = "Task"."taskId"
+                            AND "TaskApplieds"."status" IN ('${STATUS.IN_PROGRES}', '${STATUS.COMPLETED}')
+                        )
+                    `)
+                ]
+            }
         })
-
-        console.log('TASKS', tasks)
+        console.log('tasks.length', tasks.length)
         return tasks
     } catch (error) {
         console.error('Error fetching tasks:', error)

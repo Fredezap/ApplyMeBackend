@@ -18,6 +18,7 @@ const filterUserData = (user) => {
 }
 
 const findByEmail = async(email) => {
+    // todo: Hacer que me traiga los datos de las tasks, no se si aca o en donde
     try {
         const user = await User.findOne({
             where: { email },
@@ -33,19 +34,33 @@ const findByEmail = async(email) => {
                 },
                 {
                     model: TaskApplied,
+                    include: [
+                        {
+                            model: Task,
+                            include: [
+                                {
+                                    model: Image
+                                },
+                                {
+                                    model: User,
+                                    attributes: ['name', 'surname', 'email', 'role', 'phone']
+                                }
+                            ]
+                        }
+                    ],
                     order: [['createdAt', 'DESC']]
                 }
             ]
         })
-        console.log('USER', user)
         return user
     } catch (error) {
-        console.error('Error fetching user by id:', error)
+        console.error('Error fetching user by email:', error)
         throw new Error()
     }
 }
 
 const findByUserId = async(userId) => {
+    // todo: Hacer que me traiga los datos de las tasks, no se si aca o en donde
     try {
         const user = await User.findOne({
             where: { userId },
@@ -61,11 +76,24 @@ const findByUserId = async(userId) => {
                 },
                 {
                     model: TaskApplied,
+                    include: [
+                        {
+                            model: Task,
+                            include: [
+                                {
+                                    model: Image
+                                },
+                                {
+                                    model: User,
+                                    attributes: ['name', 'surname', 'email', 'role', 'phone']
+                                }
+                            ]
+                        }
+                    ],
                     order: [['createdAt', 'DESC']]
                 }
             ]
         })
-        console.log('USER', user)
         return user
     } catch (error) {
         console.error('Error fetching user by id:', error)

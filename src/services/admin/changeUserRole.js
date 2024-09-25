@@ -17,9 +17,7 @@ export const changeUserRole = async(req, res) => {
             errors = [{ msg: INVALID_USER_ROLE_TO_CHANGE }]
             return res.status(StatusCodes.BAD_REQUEST).json({ errors })
         }
-        console.log('VALUES: ', values)
-        const user2 = await userService.updateUser(values, userId)
-        console.log('user2: ', user2)
+        await userService.updateUser(values, userId)
         const users = await userService.getAll()
         return res.status(StatusCodes.OK).json({ users })
     } catch (err) {

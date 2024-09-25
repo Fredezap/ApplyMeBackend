@@ -5,9 +5,8 @@ import validateDescription from '../middlewares/tasks/validations/validateDescri
 import checkImage from '../services/tasks/checkImage.js'
 import { checkUserPermissions } from '../middlewares/auth/OAuth/checkUserPermissions.js'
 import { createTask } from '../services/tasks/createTask.js'
-import { getAllPendingTasks } from '../services/admin/getAllPendingTasks.js'
 
-const taskRouter = express.Router()
+const userRouter = express.Router()
 
 const createTaskValidations = runValidations([
     validateTitle,
@@ -20,17 +19,12 @@ const print = (req, res, next) => {
     next()
 }
 
-taskRouter.post('/create',
-    checkUserPermissions({ role: 'user' }),
+userRouter.use(checkUserPermissions({ role: 'user' }))
+
+userRouter.post('/create-task',
     createTaskValidations,
     checkImage,
     createTask
 )
 
-taskRouter.post('/get-pending-tasks',
-    print,
-    checkUserPermissions({ role: 'employee' }),
-    getAllPendingTasks
-)
-
-export default taskRouter
+export default userRouter
