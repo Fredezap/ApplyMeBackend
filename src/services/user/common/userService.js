@@ -18,7 +18,6 @@ const filterUserData = (user) => {
 }
 
 const findByEmail = async(email) => {
-    // todo: Hacer que me traiga los datos de las tasks, no se si aca o en donde
     try {
         const user = await User.findOne({
             where: { email },
@@ -28,6 +27,16 @@ const findByEmail = async(email) => {
                     include: [
                         {
                             model: Image
+                        },
+                        {
+                            model: TaskApplied,
+                            required: false,
+                            include: [
+                                {
+                                    model: User,
+                                    attributes: ['name', 'surname', 'email', 'role', 'phone']
+                                }
+                            ]
                         }
                     ],
                     order: [['createdAt', 'DESC']]
@@ -52,15 +61,16 @@ const findByEmail = async(email) => {
                 }
             ]
         })
+
+        console.log('Resultado de la consulta: ', JSON.stringify(user, null, 2))
         return user
     } catch (error) {
-        console.error('Error fetching user by email:', error)
-        throw new Error()
+        console.error('Error fetching user by id:', error)
+        throw new Error('Error fetching user data')
     }
 }
 
 const findByUserId = async(userId) => {
-    // todo: Hacer que me traiga los datos de las tasks, no se si aca o en donde
     try {
         const user = await User.findOne({
             where: { userId },
@@ -70,6 +80,16 @@ const findByUserId = async(userId) => {
                     include: [
                         {
                             model: Image
+                        },
+                        {
+                            model: TaskApplied,
+                            required: false,
+                            include: [
+                                {
+                                    model: User,
+                                    attributes: ['name', 'surname', 'email', 'role', 'phone']
+                                }
+                            ]
                         }
                     ],
                     order: [['createdAt', 'DESC']]
@@ -94,10 +114,12 @@ const findByUserId = async(userId) => {
                 }
             ]
         })
+
+        console.log('Resultado de la consulta: ', JSON.stringify(user, null, 2))
         return user
     } catch (error) {
         console.error('Error fetching user by id:', error)
-        throw new Error()
+        throw new Error('Error fetching user data')
     }
 }
 
@@ -120,7 +142,33 @@ const getAll = async() => {
         })
         return users
     } catch (error) {
-        console.error('Error fetching user by id:', error)
+        console.error('Error fetching all users:', error)
+        throw new Error()
+    }
+}
+
+const getAllEmployeeUsers = async() => {
+    try {
+        const users = await User.findAll({
+            where: { role: 'employee' },
+            attributes: { exclude: ['password', 'token', 'verificationToken', 'createdAt', 'updatedAt'] }
+        })
+        return users
+    } catch (error) {
+        console.error('Error fetching employee users:', error)
+        throw new Error()
+    }
+}
+
+const getAllCommonUsers = async() => {
+    try {
+        const users = await User.findAll({
+            where: { role: 'user' },
+            attributes: { exclude: ['password', 'token', 'verificationToken', 'createdAt', 'updatedAt'] }
+        })
+        return users
+    } catch (error) {
+        console.error('Error fetching common users:', error)
         throw new Error()
     }
 }
@@ -131,7 +179,9 @@ const userService = {
     findByEmail,
     findByUserId,
     updateUser,
-    getAll
+    getAll,
+    getAllCommonUsers,
+    getAllEmployeeUsers
 }
 
 export default userService
